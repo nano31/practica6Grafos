@@ -11,7 +11,8 @@ public class VisitaOslo {
     }
 
 
-    public void buscarVerticeInicial(String ciudad1,Grafo<String> grafo, String destino, int maxTiempo, ListaGenerica<String> restringidos){
+    public void buscarVerticeInicial(String ciudad1,Grafo<String> grafo, String destino, int maxTiempo,
+                                     ListaGenerica<String> restringidos){
         ListaEnlazadaGenerica<String> lis = new ListaEnlazadaGenerica<String>;
         boolean[] marca = new boolean[grafo.listaDeVertices().tamanio()+1];
         for(int i = 1; i < marca.length; i++){
