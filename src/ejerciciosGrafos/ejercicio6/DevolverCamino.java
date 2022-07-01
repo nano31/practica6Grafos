@@ -30,34 +30,40 @@ public class DevolverCamino {
         ListaEnlazadaGenerica<String> lista = null;
         ListaEnlazadaGenerica<String> camino = new ListaEnlazadaGenerica<String>();
         boolean[] marca = new boolean[this.grafo.listaDeVertices().tamanio()];
-
+        boolean encontre = false;
         Vertice<String> vOrigen = buscarOrigen(origen);
+        int pos = vOrigen.getPosicion();
         lista.agregarFinal(vOrigen.dato());
-        marca[vOrigen.getPosicion()] = true;
-        dfs(vOrigen.getPosicion(),this.grafo,lista,camino,destino,marca,distanciaMaxima);
+        marca[pos] = true;
+        dfs(pos,this.grafo,lista,camino,destino,marca,distanciaMaxima,encontre);
         return camino;
     }
 
     private void dfs(int i,Grafo<String> grafo, ListaEnlazadaGenerica<String> lista, ListaEnlazadaGenerica<String>camino,
-                     String destino, boolean[] marca, int dMax){
-
-        ListaGenerica<Arista<String>> ady = grafo.listaDeAdyacentes(grafo.listaDeVertices().elemento(i));
+                     String destino, boolean[] marca, int dMax,boolean encontre){
+        Vertice<String> vDest = null; int peso;
+        Vertice<String> origen = grafo.listaDeVertices().elemento(i);
+        ListaGenerica<Arista<String>> ady = grafo.listaDeAdyacentes(origen);
         ady.comenzar();
-        while(!ady.fin() && !grafo.listaDeVertices().elemento(i).dato().equals(destino)){
+        while(!ady.fin() && !encontre){
             Arista<String> arista = ady.proximo();
             int j = arista.verticeDestino().getPosicion();
-            if(arista.peso() <= dMax){
-                lista.agregarFinal(arista.verticeDestino().dato());
+            vDest = arista.verticeDestino();
+            peso = arista.peso();
+            if(peso <= dMax){
+                lista.agregarFinal(vDest.dato());
                 marca[j] = true;
+                if(grafo.listaDeVertices().elemento(i).dato().equals(destino)){
+                        lista.clonar(lista,camino);
+                        encontre = true;
+                }else{
+                    lista.eliminarEn(lista.tamanio());
+                    marca[i] = false;
+                }
             }else{
-                dfs(j,grafo,lista,camino,destino,marca,dMax);
+                dfs(j,grafo,lista,camino,destino,marca,dMax,encontre);
             }
         }
-        if(grafo.listaDeVertices().elemento(i).dato().equals(destino)){
-          lista.clonar(lista,camino);
-        }else{
-            lista.eliminarEn(lista.tamanio());
-            marca[i] = false;
-        }
+       
     }
 }
