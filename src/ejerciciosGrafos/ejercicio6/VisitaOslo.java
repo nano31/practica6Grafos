@@ -11,7 +11,10 @@ public class VisitaOslo {
     }
 
 
-    public void buscarVerticeInicial(String ciudad1,Grafo<String> grafo, boolean[] marca, ListaEnlazadaGenerica<Vertice<String>> lis){
+    public void buscarVerticeInicial(String ciudad1,Grafo<String> grafo, String destino, int maxTiempo,
+                                     ListaGenerica<String> restringidos){
+        ListaEnlazadaGenerica<String> lis = new ListaEnlazadaGenerica<String>;
+        boolean[] marca = new boolean[grafo.listaDeVertices().tamanio()+1];
         for(int i = 1; i < marca.length; i++){
             marca[i] = false;
         }
@@ -28,7 +31,7 @@ public class VisitaOslo {
             if(v.dato() == ciudad1){
                 encontrado = true;
                 pos = v.getPosicion();
-                lis.agregarFinal(v);
+                lis.agregarFinal(v.dato());
             }
         }
         if(pos != -1){
@@ -36,20 +39,13 @@ public class VisitaOslo {
         }
     }
 
-    public ListaGenerica<Vertice<String>>paseoEnBici(Grafo<String> grafo,String destino,int maxTiempo,ListaGenerica<Vertice<String>> lugaresRestringidos){
-        ListaEnlazadaGenerica<Vertice<String>> camino = new ListaEnlazadaGenerica<Vertice<String>>();
-        ListaEnlazadaGenerica<Vertice<String>> lista = new ListaEnlazadaGenerica<Vertice<String>>();
-        boolean[] marca = new boolean[grafo.listaDeVertices().tamanio()+1];
+    public ListaGenerica<String> paseoEnBici(Grafo<String> grafo,String destino,int maxTiempo,ListaGenerica<String> lugaresRestringidos){
+        ListaEnlazadaGenerica<String> camino = new ListaEnlazadaGenerica<String>();
+        ListaEnlazadaGenerica<String> lista = new ListaEnlazadaGenerica<String>();
         String ciudad1 = "gol"; //por poner algo
 
-        buscarVerticeInicial(ciudad1, grafo, marca, lista);
-
-        int tiempo = 0;
+        buscarVerticeInicial(ciudad1, grafo, destino, maxTiempo, lugaresRestringidos);
 
         return camino;
-    }
-
-    private void dfsPaseoEnBici(){
-
     }
 }
